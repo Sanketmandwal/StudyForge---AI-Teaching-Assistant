@@ -55,7 +55,7 @@ const DocumentDetailPage = () => {
       return filePath
     }
 
-    const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
+    const baseUrl = 'https://studyforge-ai-teaching-assistant.onrender.com'
     return `${baseUrl}/${filePath.startsWith('/') ? filePath.slice(1) : filePath}`
   }
 
