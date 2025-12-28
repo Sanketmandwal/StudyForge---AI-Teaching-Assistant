@@ -1,6 +1,6 @@
-# StudyForge – AI-Powered Teaching Assistant
+# StudyForge – AI-Powered Learning Assistant
 
-StudyForge is an **AI-powered teaching assistant platform** that converts static PDF documents into **interactive learning experiences**.
+StudyForge is an **AI-powered learning assistant platform** that converts static PDF documents into **interactive learning experiences**.
 It allows users to upload PDFs and generate **summaries, quizzes, flashcards, and document-grounded chat responses** using **Google Gemini** and a **Retrieval-Augmented Generation (RAG)** architecture.
 
 Built using the **MERN stack**, StudyForge focuses on reliability, scalability, and controlled use of Generative AI.
