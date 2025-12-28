@@ -130,7 +130,23 @@ http://localhost:5173
 
 ## 📸 Screenshots
 
-_Add screenshots or demo GIFs here._
+### Dashboard
+![Dashboard](ScreenShots/Dashboard.png)
+
+### Upload Document
+![Upload Document](ScreenShots/Document.png)
+
+### AI Chat Interface
+![AI Chat](ScreenShots/Chat.png)
+
+### AI Actions
+![AI Actions](ScreenShots/AIActions.png)
+
+### FlashCards
+![FlashCards](ScreenShots/Flashcard.png)
+
+### Quizzes
+![Quizzes](ScreenShots/Quiz.png)
 
 ---
 
