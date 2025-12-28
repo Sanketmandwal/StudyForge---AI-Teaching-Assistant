@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@theme{
+  --font-display : "Urbanist" , sans-serif;
+  --breakpoint-3xl : 1920px;
+  --color-primary : #FF9324
+}
+
+@layer base {
+  html{
+    font-family: var(--font-display);
+  }
+
+  body{
+    background-color: #fcfbfc;
+  }
+}
+
+/* Add to your index.css or global styles */
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}
