@@ -50,7 +50,7 @@ export const uploadDocument = async (req, res, next) => {
             })
         }
 
-        const baseUrl = `http://localhost:${process.env.PORT || 5000}`
+        const baseUrl = `https://studyforge-ai-teaching-assistant.onrender.com`
         const fileUrl = `${baseUrl}/uploads/documents/${req.file.filename}`
 
         const document = await Document.create({
