@@ -37,7 +37,7 @@ const LoginPage = () => {
 
   const handleGoogleLogin = async (credentialResponse) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/google-login", {
+      const res = await axios.post("https://studyforge-ai-teaching-assistant.onrender.com/api/auth/google-login", {
         tokenId: credentialResponse.credential,
       });
 
