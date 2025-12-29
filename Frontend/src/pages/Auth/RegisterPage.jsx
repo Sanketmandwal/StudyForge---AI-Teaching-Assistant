@@ -3,6 +3,9 @@ import { useNavigate, Link } from 'react-router-dom'
 import authService from '../../services/authService'
 import toast from 'react-hot-toast'
 import { User, Mail, Lock, Eye, EyeOff, UserPlus, Sparkles, Check, X } from 'lucide-react'
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import { useAuth } from '../../context/AuthContext'
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('')
@@ -14,19 +17,34 @@ const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [focusedField, setFocusedField] = useState(null)
+  const {login} = useAuth()
 
   const navigate = useNavigate()
 
-  
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/google-login", {
+        tokenId: credentialResponse.credential,
+      });
+
+      login(res.data.data.token, res.data.data.user);
+      toast.success("Logged in with Google");
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error("Google login failed", error);
+    }
+  };
+
+
   const calculatePasswordStrength = (pass) => {
     let score = 0
     if (!pass) return { score: 0, text: '', color: '' }
 
-   
+
     if (pass.length >= 8) score++
     if (pass.length >= 12) score++
 
-   
+
     if (/[a-z]/.test(pass)) score++
     if (/[A-Z]/.test(pass)) score++
     if (/[0-9]/.test(pass)) score++
@@ -39,7 +57,7 @@ const RegisterPage = () => {
 
   const passwordStrength = calculatePasswordStrength(password)
 
-  
+
   const requirements = [
     { met: password.length >= 8, text: 'At least 8 characters' },
     { met: /[a-z]/.test(password), text: 'One lowercase letter' },
@@ -51,7 +69,7 @@ const RegisterPage = () => {
     e.preventDefault()
     setError('')
 
-    
+
     if (password !== confirmPassword) {
       setError('Passwords do not match')
       toast.error('Passwords do not match')
@@ -84,7 +102,7 @@ const RegisterPage = () => {
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-50"></div>
       </div>
 
-      
+
       <div className="relative w-full max-w-md">
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 relative overflow-hidden">
@@ -123,11 +141,10 @@ const RegisterPage = () => {
                   onBlur={() => setFocusedField(null)}
                   placeholder="johndoe"
                   required
-                  className={`w-full pl-12 pr-4 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${
-                    focusedField === 'username'
+                  className={`w-full pl-12 pr-4 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${focusedField === 'username'
                       ? 'border-purple-500 bg-white shadow-lg shadow-purple-100'
                       : 'border-transparent hover:bg-gray-100'
-                  }`}
+                    }`}
                 />
               </div>
             </div>
@@ -149,11 +166,10 @@ const RegisterPage = () => {
                   onBlur={() => setFocusedField(null)}
                   placeholder="you@example.com"
                   required
-                  className={`w-full pl-12 pr-4 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${
-                    focusedField === 'email'
+                  className={`w-full pl-12 pr-4 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${focusedField === 'email'
                       ? 'border-purple-500 bg-white shadow-lg shadow-purple-100'
                       : 'border-transparent hover:bg-gray-100'
-                  }`}
+                    }`}
                 />
               </div>
             </div>
@@ -175,11 +191,10 @@ const RegisterPage = () => {
                   onBlur={() => setFocusedField(null)}
                   placeholder="Create a strong password"
                   required
-                  className={`w-full pl-12 pr-12 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${
-                    focusedField === 'password'
+                  className={`w-full pl-12 pr-12 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${focusedField === 'password'
                       ? 'border-purple-500 bg-white shadow-lg shadow-purple-100'
                       : 'border-transparent hover:bg-gray-100'
-                  }`}
+                    }`}
                 />
                 <button
                   type="button"
@@ -195,11 +210,10 @@ const RegisterPage = () => {
                 <div className="mt-3 space-y-2">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-600">Password strength:</span>
-                    <span className={`font-semibold ${
-                      passwordStrength.text === 'Weak' ? 'text-red-600' :
-                      passwordStrength.text === 'Medium' ? 'text-yellow-600' :
-                      'text-green-600'
-                    }`}>
+                    <span className={`font-semibold ${passwordStrength.text === 'Weak' ? 'text-red-600' :
+                        passwordStrength.text === 'Medium' ? 'text-yellow-600' :
+                          'text-green-600'
+                      }`}>
                       {passwordStrength.text}
                     </span>
                   </div>
@@ -207,13 +221,12 @@ const RegisterPage = () => {
                     {[...Array(6)].map((_, i) => (
                       <div
                         key={i}
-                        className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
-                          i < passwordStrength.score ? passwordStrength.color : 'bg-gray-200'
-                        }`}
+                        className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${i < passwordStrength.score ? passwordStrength.color : 'bg-gray-200'
+                          }`}
                       />
                     ))}
                   </div>
-                  
+
                   {/* Requirements checklist */}
                   <div className="grid grid-cols-2 gap-2 mt-3">
                     {requirements.map((req, i) => (
@@ -250,11 +263,10 @@ const RegisterPage = () => {
                   onBlur={() => setFocusedField(null)}
                   placeholder="Re-enter your password"
                   required
-                  className={`w-full pl-12 pr-12 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${
-                    focusedField === 'confirmPassword'
+                  className={`w-full pl-12 pr-12 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${focusedField === 'confirmPassword'
                       ? 'border-purple-500 bg-white shadow-lg shadow-purple-100'
                       : 'border-transparent hover:bg-gray-100'
-                  }`}
+                    }`}
                 />
                 <button
                   type="button"
@@ -297,6 +309,17 @@ const RegisterPage = () => {
               )}
             </button>
           </form>
+
+          <div className="mt-6">
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() => toast.error("Google login failed")}
+              theme="outline"
+              size="large"
+              width="100%"
+            />
+          </div>
+
 
           {/* Divider */}
           <div className="relative my-8">

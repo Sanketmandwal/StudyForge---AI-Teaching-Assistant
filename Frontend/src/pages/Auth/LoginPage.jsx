@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import authService from '../../services/authService.js'
 import { Mail, Lock, Eye, EyeOff, LogIn, Sparkles } from 'lucide-react'
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
@@ -32,6 +34,21 @@ const LoginPage = () => {
       setLoading(false)
     }
   }
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/google-login", {
+        tokenId: credentialResponse.credential,
+      });
+
+      login(res.data.data.token, res.data.data.user);
+      toast.success("Logged in with Google");
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error("Google login failed", error);
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
@@ -80,11 +97,10 @@ const LoginPage = () => {
                   onBlur={() => setFocusedField(null)}
                   placeholder="you@example.com"
                   required
-                  className={`w-full pl-12 pr-4 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${
-                    focusedField === 'email'
+                  className={`w-full pl-12 pr-4 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${focusedField === 'email'
                       ? 'border-blue-500 bg-white shadow-lg shadow-blue-100'
                       : 'border-transparent hover:bg-gray-100'
-                  }`}
+                    }`}
                 />
               </div>
             </div>
@@ -106,11 +122,10 @@ const LoginPage = () => {
                   onBlur={() => setFocusedField(null)}
                   placeholder="Enter your password"
                   required
-                  className={`w-full pl-12 pr-12 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${
-                    focusedField === 'password'
+                  className={`w-full pl-12 pr-12 py-3.5 bg-gray-50 border-2 rounded-xl outline-none transition-all duration-200 ${focusedField === 'password'
                       ? 'border-blue-500 bg-white shadow-lg shadow-blue-100'
                       : 'border-transparent hover:bg-gray-100'
-                  }`}
+                    }`}
                 />
                 <button
                   type="button"
@@ -151,6 +166,17 @@ const LoginPage = () => {
               )}
             </button>
           </form>
+
+          <div className="mt-6">
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() => toast.error("Google login failed")}
+              theme="outline"
+              size="large"
+              width="100%"
+            />
+          </div>
+
 
           {/* Divider */}
           <div className="relative my-8">
