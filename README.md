@@ -1,6 +1,6 @@
-# StudyForge – AI-Powered Teaching Assistant
+# StudyForge – AI-Powered Learning Assistant
 
-StudyForge is an **AI-powered teaching assistant platform** that converts static PDF documents into **interactive learning experiences**.
+StudyForge is an **AI-powered learning assistant platform** that converts static PDF documents into **interactive learning experiences**.
 It allows users to upload PDFs and generate **summaries, quizzes, flashcards, and document-grounded chat responses** using **Google Gemini** and a **Retrieval-Augmented Generation (RAG)** architecture.
 
 Built using the **MERN stack**, StudyForge focuses on reliability, scalability, and controlled use of Generative AI.
@@ -60,16 +60,15 @@ Built using the **MERN stack**, StudyForge focuses on reliability, scalability, 
 
 ```
 StudyForge/
-├── client/                         # Frontend (React)
-├── server/                         # Backend (Node.js + Express)
+├── Frontend/                         # Frontend (React)
+├── Backend/                         # Backend (Node.js + Express)
 │   ├── controllers/
 │   ├── models/
 │   ├── routes/
 │   ├── utils/
 │   ├── middleware/
 │   └── config/
-├── uploads/
-├── .env.sample
+├── ScreenShots/
 └── README.md
 ```
 
@@ -79,7 +78,7 @@ StudyForge/
 
 ### Prerequisites
 - Node.js (v16+)
-- MongoDB (local or cloud)
+- MongoDB (cloud)
 
 ### Installation
 
@@ -90,7 +89,7 @@ cd StudyForge
 ```
 
 2. Configure environment variables
-- Copy `.env.sample` to `.env` inside the `server/` directory.
+- Copy `.env.sample` to `.env` inside the `Backend/` directory.
 - Add MongoDB URI, JWT Secret, and Gemini API Key.
 
 3. Install dependencies
