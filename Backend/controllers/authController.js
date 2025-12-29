@@ -28,6 +28,7 @@ export const register = async (req, res, next) => {
             username,
             email,
             password,
+            authProvider: "local",
         })
 
         const token = generateToken(user._id)

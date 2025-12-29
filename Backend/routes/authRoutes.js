@@ -8,6 +8,7 @@ import {
     changePassword,
 } from '../controllers/authController.js'
 import protect from '../middleware/auth.js';
+import { googleLogin } from '../controllers/googleController.js';
 
 const authRouter = express.Router();
 
@@ -24,6 +25,7 @@ const loginValidation = [
 
 authRouter.post('/register', registerValidation , register)
 authRouter.post('/login',loginValidation,login)
+authRouter.post("/google-login", googleLogin)
 
 authRouter.get('/profile',protect , getProfile)
 authRouter.put('/profile', protect , updateProfile) 
