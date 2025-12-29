@@ -310,7 +310,7 @@ const RegisterPage = () => {
             </button>
           </form>
 
-          <div className="mt-6">
+          <div className="mt-6 flex justify-center">
             <GoogleLogin
               onSuccess={handleGoogleLogin}
               onError={() => toast.error("Google login failed")}
